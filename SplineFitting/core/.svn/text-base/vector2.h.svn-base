@@ -1,0 +1,85 @@
+
+#ifndef VECTOR2
+#define VECTOR2
+
+#include <math.h>
+#include <stdio.h>
+
+
+class CVector2;
+
+CVector2 operator *(double s, const CVector2 &v);
+CVector2 normalize(CVector2 &v);
+double   dot(const CVector2 &a, const CVector2 &b);
+double   length(const CVector2 &v);
+
+class CVector2
+{   
+
+public:
+    CVector2();
+    CVector2(double x, double y);
+    CVector2(const CVector2 &v);
+    CVector2(const double *v);
+    ~CVector2();
+
+    double length();
+    double dot(const CVector2 &vec);
+    double angle(CVector2 &vec);
+    CVector2 normalized();
+    void normalize();
+    void set(double x, double y);
+    void set(double *vec);
+
+    CVector2 &get();
+    double *getArray();
+
+    void print();
+
+    //Assignment
+    CVector2 &operator =  (const CVector2 &a);
+    CVector2 &operator += (const CVector2 &a);
+    CVector2 &operator += (double s);
+    CVector2 &operator -= (const CVector2 &a);
+    CVector2 &operator -= (double s);
+    CVector2 &operator *= (const CVector2 &a);
+    CVector2 &operator *= (double s);    
+    CVector2 &operator /= (const CVector2 &a);
+    CVector2 &operator /= (double s);
+	  
+    //Arithmetic
+    friend CVector2 operator + (const CVector2 &a, const CVector2 &b);
+    friend CVector2 operator + (const CVector2 &a, double s);	
+    friend CVector2 operator + (double s, const CVector2 &a);	
+    friend CVector2 operator - (const CVector2 &a, const CVector2 &b);
+    friend CVector2 operator - (const CVector2 &a, double s);
+    friend CVector2 operator - (const CVector2 &a);
+	friend CVector2 operator * (const CVector2 &a, const CVector2 &b);
+    friend CVector2 operator * (const CVector2 &a, double s);
+    friend CVector2 operator * (double s, const CVector2 &a);
+    friend CVector2 operator / (const CVector2 &a, const CVector2 &b);
+    friend CVector2 operator / (const CVector2 &a, double s);
+
+    //Comparison
+    friend bool operator == (const CVector2 &a, const CVector2 &b);
+    friend bool operator != (const CVector2 &a, const CVector2 &b);
+    friend bool operator <= (const CVector2 &a, const CVector2 &b);
+    friend bool operator <  (const CVector2 &a, const CVector2 &b);
+    friend bool operator >= (const CVector2 &a, const CVector2 &b);
+    friend bool operator >  (const CVector2 &a, const CVector2 &b);	
+
+
+	double x() const {return m_x;}
+	double y() const {return m_y;}
+
+
+    double m_x;
+    double m_y;
+    
+
+private:
+    double vec[2];     
+};
+
+
+#endif

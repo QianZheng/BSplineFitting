@@ -1,0 +1,371 @@
+
+#include "Vector2.h"
+
+CVector2::CVector2() 
+: m_x(0.0),
+  m_y(0.0)
+{
+	vec[0] = vec[1] ;
+}
+
+CVector2::CVector2(double x, double y)
+{
+   this->m_x = x;
+   this->m_y = y;
+
+   vec[0] = x;
+   vec[1] = y;
+}
+
+CVector2::CVector2(const CVector2 &v)
+{
+   this->m_x = v.m_x;
+   this->m_y = v.m_y;
+
+   vec[0] = v.m_x;
+   vec[1] = v.m_y;
+}
+
+CVector2::CVector2(const double *v)
+{
+   this->m_x = v[0];
+   this->m_y = v[1];
+
+   vec[0] = v[0];
+   vec[1] = v[1];
+}
+
+CVector2::~CVector2() 
+{
+}
+
+double CVector2::length()
+{
+   double length = 0.0f;
+
+   length = sqrt((this->m_x * this->m_x) + (this->m_y * this->m_y)) ;
+   return length;
+}
+
+double CVector2::dot(const CVector2 &vec)
+{
+   double dot = 0.0f;
+
+   dot = (this->m_x * vec.m_x) + (this->m_y * vec.m_y) ;
+
+   return dot;
+}
+
+double CVector2::angle(CVector2 &vec)
+{
+    double d = this->dot(vec);
+
+    double a = this->length();    
+    double b = vec.length();
+
+    double s = d / (a*b);
+    double angle = (double)acos((double)s);
+
+    return angle;
+}
+
+void CVector2::normalize()
+{
+   double len = this->length();
+
+   if(len > 0.0f)
+   {
+       this->m_x = this->m_x / len;
+       this->m_y = this->m_y / len; 
+   }
+}
+
+CVector2 CVector2::normalized()
+{
+   double len = this->length();
+   CVector2 normalized; 
+
+   if(len > 0.0)
+   {
+       normalized.m_x = this->m_x / len;
+       normalized.m_y = this->m_y / len; 
+   }
+
+   return normalized;
+}
+
+void CVector2::set(double x, double y)
+{
+   this->m_x = x;
+   this->m_y = y;
+}
+
+void CVector2::set(double *vec)
+{
+   this->m_x = vec[0];
+   this->m_y = vec[1];
+}
+
+CVector2 &CVector2::get()
+{
+    return *this;
+}
+
+double *CVector2::getArray()
+{
+    vec[0] = m_x;
+    vec[1] = m_y;
+
+    return vec;
+}
+
+void CVector2::print()
+{
+    printf("x: %f, y: %f\n", m_x, m_y);
+}
+
+CVector2 &CVector2::operator =(const CVector2 &a)
+{
+   this->m_x = a.m_x;
+   this->m_y = a.m_y;
+
+   return *this;
+}
+
+CVector2 &CVector2::operator +=(const CVector2 &a)
+{
+   this->m_x += a.m_x;
+   this->m_y += a.m_y;
+
+   return *this;
+}
+
+CVector2 &CVector2::operator +=(double s)
+{
+   this->m_x += s;
+   this->m_y += s;
+
+   return *this;
+}
+
+CVector2 &CVector2::operator -=(const CVector2 &a)
+{
+   this->m_x -= a.m_x;
+   this->m_y -= a.m_y;
+
+   return *this;
+}
+
+CVector2 &CVector2::operator -=(double s)
+{
+   this->m_x -= s;
+   this->m_y -= s;
+
+   return *this;
+}
+
+CVector2 &CVector2::operator *=(const CVector2 &a)
+{
+   this->m_x *= a.m_x;
+   this->m_y *= a.m_y;
+
+   return *this;
+}
+
+CVector2 &CVector2::operator *=(double s)
+{
+   this->m_x *= s;
+   this->m_y *= s;
+
+   return *this;
+}
+
+CVector2 &CVector2::operator /=(const CVector2 &a)
+{
+   this->m_x /= a.m_x;
+   this->m_y /= a.m_y;
+   
+   return *this;
+}
+
+CVector2 &CVector2::operator /=(double s)
+{
+   this->m_x /= s;
+   this->m_y /= s;
+
+   return *this;
+}
+
+//-----------------------------------------------------------------------------------------------
+
+CVector2 operator +(const CVector2 &a, const CVector2 &b)
+{
+   CVector2 r;
+
+   r.m_x = a.m_x + b.m_x;
+   r.m_y = a.m_y + b.m_y;
+
+   return r;
+}
+
+CVector2 operator +(const CVector2 &a, double s)
+{
+   CVector2 r;
+
+   r.m_x = a.m_x + s;
+   r.m_y = a.m_y + s;
+
+   return r;
+}
+
+CVector2 operator +(double s, const CVector2 &a)
+{
+   CVector2 r;
+
+   r.m_x = a.m_x + s;
+   r.m_y = a.m_y + s;
+
+   return r;
+}
+
+CVector2 operator -(const CVector2 &a, const CVector2 &b)
+{
+   CVector2 r;
+
+   r.m_x = a.m_x - b.m_x;
+   r.m_y = a.m_y - b.m_y;
+
+   return r;
+}
+
+CVector2 operator -(const CVector2 &a, double s)
+{
+   CVector2 r;
+
+   r.m_x = a.m_x - s;
+   r.m_y = a.m_y - s;
+
+   return r;
+}
+
+
+CVector2 operator -(const CVector2 &a)
+{
+    CVector2 r;
+	
+	r.m_x = -a.m_x;
+	r.m_y = -a.m_y;
+	
+	return r;
+}
+
+CVector2 operator *(const CVector2 &a, double s)
+{
+   CVector2 r;
+
+   r.m_x = a.m_x * s;
+   r.m_y = a.m_y * s;
+
+   return r;
+}
+
+CVector2 operator *(const CVector2 &a, const CVector2 &b)
+{
+   CVector2 r;
+
+   r.m_x = a.m_x * b.m_x;
+   r.m_y = a.m_y * b.m_y;
+
+   return r;
+}
+
+CVector2 operator /(const CVector2 &a, double s)
+{
+   CVector2 r;
+
+   r.m_x = a.m_x / s;
+   r.m_y = a.m_y / s;
+
+   return r;
+}
+
+CVector2 operator /(const CVector2 &a, const CVector2 &b)
+{
+   CVector2 r;
+
+   r.m_x = a.m_x / b.m_x;
+   r.m_y = a.m_y / b.m_y;
+
+   return r;
+}
+
+//-----------------------------------------------------------------------------------------------
+
+bool operator == (const CVector2 &a, const CVector2 &b)
+{
+    return(a.m_x == b.m_x && a.m_y == b.m_y );
+}
+
+bool operator != (const CVector2 &a, const CVector2 &b)
+{
+    return(a.m_x != b.m_x || a.m_y != b.m_y );
+}
+
+bool operator <= (const CVector2 &a, const CVector2 &b)
+{
+    return(a.m_x <= b.m_x && a.m_y <= b.m_y );
+}
+
+bool operator < (const CVector2 &a, const CVector2 &b)
+{
+    return(a.m_x < b.m_x && a.m_y < b.m_y );
+}
+
+bool operator >= (const CVector2 &a, const CVector2 &b)
+{
+    return(a.m_x >= b.m_x && a.m_y >= b.m_y);
+}
+
+bool operator > (const CVector2 &a, const CVector2 &b)
+{
+    return(a.m_x > b.m_x && a.m_y > b.m_y );
+}
+
+
+
+CVector2 normalize(CVector2 &v)
+{
+   double len = v.length();
+   CVector2 normalized; 
+
+   if(len > 0.0)
+   {
+       normalized.m_x = v.m_x / len;
+       normalized.m_y = v.m_y / len; 
+   }
+
+   return normalized;
+}
+
+double dot(const CVector2 &a, const CVector2 &b)
+{
+   double dot = 0.0f;
+
+   dot = (a.m_x * b.m_x) + (a.m_y * b.m_y) ;
+
+   return dot;
+}
+
+double length(const CVector2 &v)
+{
+   double length = 0.0f;
+
+   length = sqrt((v.m_x * v.m_x) + (v.m_y * v.m_y) );
+
+   return length;
+}
+
+CVector2 operator *(double s, const CVector2 &v)
+{
+    return (v * s);
+}
