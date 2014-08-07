@@ -21,6 +21,12 @@ void SplineCurveFitting::initControlPoint(const vector<Vector2d>& points,
 		if( v2.y() < v.y() )  v2.y() = v.y();
 	}
 
+	Vector2d dir = ( v2-v1 )*0.5;
+	Vector2d cent = v1 + dir;
+
+	v1 = cent - 1.05*dir;
+	v2 = cent + 1.05*dir;
+
 	vector<Vector2d> rets;
 	rets.push_back( v1 );
 	rets.push_back( Vector2d( v1.x(), v2.y() ) );
@@ -28,14 +34,11 @@ void SplineCurveFitting::initControlPoint(const vector<Vector2d>& points,
 	rets.push_back( Vector2d( v2.x(), v1.y() ) );
 	rets.push_back( v1 );
 
-	Vector2d dir = ( v2-v1 )*0.5;
-	Vector2d cent = v1 + dir;
+
 	for( int i = 0; i < 4; i++ )
 	{
 		Vector2d p1 = rets[i];
-		p1 =  cent + (p1-cent)*1.2f;
 		Vector2d p2 = rets[i+1];
-		p2 = cent + (p2 -cent) * 1.2f;
 		for(int j =0; j < perNum; j++) {
 			controlPs.push_back(  p1 + (p2-p1) * j/(double)(perNum));
 		}

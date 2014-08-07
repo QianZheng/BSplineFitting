@@ -6,6 +6,7 @@ spline_name = strcat(input_name, '_spline.txt');
 P = load(input_name);
 figure;
 plot(P(:,1), P(:,2),'b.','MarkerSize',15);
+plot(P(:,1), P(:,2),'b');
 
 hold on;
 C = load(control_name);
