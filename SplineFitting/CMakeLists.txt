@@ -3,10 +3,12 @@ project(spline_fitting)
 
 # Eigen
 set(EIGEN_DIR  c:/develop/Eigen)
+#set(EIGEN_DIR  D:/develop/Eigen-3.2.7/eigen-lib)
 include_directories(${EIGEN_DIR})
 
 # ANN
 set(ANN_DIR  c:/develop/ann)
+#set(ANN_DIR  D:/develop/ann_1.1.2/ann-lib)
 include_directories(${ANN_DIR}/include)
 link_directories(${ANN_DIR}/lib)
 
