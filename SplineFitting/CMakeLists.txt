@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(spline_fitting)
 
 # Eigen
-set(EIGEN_DIR  C:/Develop/eigen)
-include_directories(${EIGEN_DIR}/include)
+set(EIGEN_DIR  c:/develop/Eigen)
+include_directories(${EIGEN_DIR})
 
 # ANN
-set(ANN_DIR  C:/Develop/ann)
+set(ANN_DIR  c:/develop/ann)
 include_directories(${ANN_DIR}/include)
 link_directories(${ANN_DIR}/lib)
 

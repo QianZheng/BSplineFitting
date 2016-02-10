@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
 	scf.apply( points, curve, 28, 50, 0.001, 0.001  );
 
-	CReadWriteAsc::writeAsc( inFileName, points);
+//	CReadWriteAsc::writeAsc( inFileName, points);
 	CReadWriteAsc::writeAsc( outFileName1, curve.getControls());
 	CReadWriteAsc::writeAsc( outFileName2, curve.getSamples() );
 
