@@ -45,7 +45,7 @@ Vector2d CubicBSplineCurve::getPos( const Parameter& para) const
 	tm << tf*tf*tf, tf*tf, tf, 1;
 
 
-	int n = nb_control();
+	size_t n = nb_control();
 	MatrixXd pm(4,2);
 	for( int i = 0; i < 4; i++)
 	{
@@ -71,7 +71,7 @@ Vector2d CubicBSplineCurve::getFirstDiff(const Parameter& para) const
 	MatrixXd  tm(1,4);
 	tm << 3*tf*tf,2*tf, 1, 0;
 
-	int n = nb_control();
+	size_t n = nb_control();
 	MatrixXd pm(4,2);
 	for( int i = 0; i < 4; i++)
 	{
@@ -172,7 +172,7 @@ double CubicBSplineCurve::findFootPrint(const vector<Vector2d>& givepoints,
 
 	int iKNei = 1;
 	int iDim = 2;
-	int iNPts = positions_.size();
+	size_t iNPts = positions_.size();
 	double eps = 0;
 
 	ANNpointArray dataPts = annAllocPts(iNPts, iDim); // allocate data points; // data points
@@ -342,7 +342,7 @@ MatrixXd CubicBSplineCurve::getSIntegralSq()
 MatrixXd CubicBSplineCurve::getFIntegralSq()
 {
 	// compute P"(t)
-	int controlNum  = nb_control();
+	size_t controlNum  = nb_control();
 	MatrixXd pm(2*controlNum, 2*controlNum);
 	pm.setZero();
 

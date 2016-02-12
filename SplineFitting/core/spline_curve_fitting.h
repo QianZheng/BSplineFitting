@@ -14,10 +14,12 @@
 				 http://www.geometrie.tuwien.ac.at/ig/sn/2006/wpl_curves_06/wpl_curves_06.html
 *********************************************************************/
 
+typedef enum { RECT_INIT, SPHERE_INIT } EInitType;
 
 class  SplineCurveFitting
 {
 public:
+
 	SplineCurveFitting(void){}
 	~SplineCurveFitting(void){}
 
@@ -36,11 +38,13 @@ public:
 		int maxIterNum = 30, 
 		double alpha  = 0.002,
 		double beta = 0.005,  // 0.005	     
-		double eplison = 0.0001);
+		double eplison = 0.0001,
+		EInitType initType = SPHERE_INIT);
 
 private:
 	// initial control points
 	void initControlPoint( const vector<Vector2d>& points, 
 		vector<Vector2d>& controlPs,
-		int controlNum);
+		int controlNum,
+		EInitType initType);
 };

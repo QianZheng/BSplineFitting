@@ -39,7 +39,7 @@ public:
 		clear(); 
 	}
 
-	unsigned int nb_control()  const { return controls_.size(); }
+	size_t nb_control()  const { return controls_.size(); }
 
 	//////////////////////////////////////////////////////////////////////////
 	// compute the x ,y position of current parameter

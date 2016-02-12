@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 	std::vector<Vector2d> points;
 	CReadWriteAsc::readAsc( inFileName, points );
 
-	scf.apply( points, curve, 28, 50, 0.001, 0.001  );
+	scf.apply(points, curve, 28, 50, 0.005, 0.005, 0.0001, SPHERE_INIT);
 
 //	CReadWriteAsc::writeAsc( inFileName, points);
 	CReadWriteAsc::writeAsc( outFileName1, curve.getControls());

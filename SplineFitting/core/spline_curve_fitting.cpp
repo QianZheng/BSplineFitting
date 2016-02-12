@@ -2,47 +2,78 @@
 #include <eigen/SVD>
 
 
+#define TEMP_PI       3.14159265358979323846
+
+
 void SplineCurveFitting::initControlPoint(const vector<Vector2d>& points, 
 									  vector<Vector2d>& controlPs,
-									  int controlNum)
+									  int controlNum,
+									  EInitType initType)
 {
 	// compute the initial 12 control points
 	controlPs.clear();
 	int perNum = controlNum/4;
 
-	Vector2d v1 = points[0];
-	Vector2d v2 = points[0];
-
-	for( unsigned int i = 0 ;i!= points.size(); ++i) {
-		Vector2d v = points[i];
-		if( v1.x() > v.x() )  v1.x() = v.x();
-		if( v1.y() > v.y() )  v1.y() = v.y();
-		if( v2.x() < v.x() )  v2.x() = v.x();
-		if( v2.y() < v.y() )  v2.y() = v.y();
-	}
-
-	Vector2d dir = ( v2-v1 )*0.5;
-	Vector2d cent = v1 + dir;
-
-	v1 = cent - 1.05*dir;
-	v2 = cent + 1.05*dir;
-
-	vector<Vector2d> rets;
-	rets.push_back( v1 );
-	rets.push_back( Vector2d( v1.x(), v2.y() ) );
-	rets.push_back( v2 );
-	rets.push_back( Vector2d( v2.x(), v1.y() ) );
-	rets.push_back( v1 );
-
-
-	for( int i = 0; i < 4; i++ )
+	if (initType == RECT_INIT)
 	{
-		Vector2d p1 = rets[i];
-		Vector2d p2 = rets[i+1];
-		for(int j =0; j < perNum; j++) {
-			controlPs.push_back(  p1 + (p2-p1) * j/(double)(perNum));
+		Vector2d v1 = points[0];
+		Vector2d v2 = points[0];
+
+		for (unsigned int i = 0; i != points.size(); ++i) {
+			Vector2d v = points[i];
+			if (v1.x() > v.x())  v1.x() = v.x();
+			if (v1.y() > v.y())  v1.y() = v.y();
+			if (v2.x() < v.x())  v2.x() = v.x();
+			if (v2.y() < v.y())  v2.y() = v.y();
+		}
+
+		Vector2d dir = (v2 - v1)*0.5;
+		Vector2d cen = v1 + dir;
+
+		v1 = cen - 1.05*dir;
+		v2 = cen + 1.05*dir;
+
+		vector<Vector2d> rets;
+		rets.push_back(v1);
+		rets.push_back(Vector2d(v1.x(), v2.y()));
+		rets.push_back(v2);
+		rets.push_back(Vector2d(v2.x(), v1.y()));
+		rets.push_back(v1);
+
+
+		for (int i = 0; i < 4; i++)
+		{
+			Vector2d p1 = rets[i];
+			Vector2d p2 = rets[i + 1];
+			for (int j = 0; j < perNum; j++) {
+				controlPs.push_back(p1 + (p2 - p1) * j / (double)(perNum));
+			}
 		}
 	}
+	else
+	{
+		Vector2d cen(0, 0);
+		for (size_t i = 0; i != points.size(); ++i)
+		{
+			cen += points[i];
+		}
+		cen /= points.size();
+
+		double radius = 0;
+		for (size_t i = 0; i!= points.size(); ++i)
+		{
+			double len = (points[i] - cen).norm();
+			if (radius < len)
+				radius = len;
+		}
+
+		double theta = (2 * TEMP_PI) / controlNum;
+		for (size_t i = 0; i != controlNum; ++i)
+		{
+			Vector2d pos = cen + radius*Vector2d(std::cos(theta*i), std::sin(theta*i));
+			controlPs.push_back(pos);
+		}
+	}	
 
 }
 
@@ -50,17 +81,18 @@ double SplineCurveFitting::apply(
 						   const vector<Vector2d> &points, 
 						   CubicBSplineCurve &curve,
 						   int controlNum /* = 28 */,
-						   int maxIterNum  /*= 30*/,
-						   double alpha /* = 0.002*/, 
+						   int maxIterNum  /*= 30 */,
+						   double alpha /* = 0.002 */, 
 						   double gama /* = 0.002 */,
-						   double eplison /* = 0.0001*/)
+						   double eplison /* = 0.0001 */,
+						   EInitType initType /* =SPHERE_INIT */)
 {
 	controlNum = controlNum/4*4;
 
 	// initialize the cube B-spline
 	CubicBSplineCurve* spline = &curve;
 	vector<Vector2d> controlPs;
-	initControlPoint(points, controlPs, controlNum);
+	initControlPoint(points, controlPs, controlNum, initType);
 	spline->setNewControl( controlPs);
 
 	// update the control point
@@ -84,12 +116,6 @@ double SplineCurveFitting::apply(
 		// compute h(D)
 		for( int i = 0; i< (int)parameters.size(); i++)
 		{
-
-			if( i== 205)
-			{
-				int tt = 1;
-			}
-
 // 			if( labels[i] == false )
 // 				continue;
 
