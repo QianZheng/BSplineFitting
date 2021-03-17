@@ -26,7 +26,7 @@ void CubicBSplineCurve::setNewControl( const vector<Vector2d>& controlPs)
 //************************************
 // Method:    getPos
 // Returns:   Eigen::Vector2d
-// Function:  公式B(t)的展开形式
+// Function:  锟斤拷式B(t)锟斤拷展锟斤拷锟斤拷式
 // Time:      2014/08/05
 // Author:    Qian
 //************************************
@@ -207,6 +207,8 @@ double CubicBSplineCurve::findFootPrint(const vector<Vector2d>& givepoints,
 	delete[] nnIdx;
 	delete[] dists;
 	delete kdTree;
+	annDeallocPts(dataPts);
+	annDeallocPt(queryPt);
 	annClose(); // done with ANN
 
 	return squareSum;
